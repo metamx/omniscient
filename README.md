@@ -33,6 +33,8 @@ Meant to provide flexibility for non-UI events and ease of integration with lega
       if (data.type !== 'time') mixpanel.track(data.type, data);
     });
 
+Stalker neither cares nor wants to know what vendor you are using and how to initialize that vendor's library. So you are free to initialize vendor libraries and such whenever and wherever.
+
 ## Initialization
 
 $(function () { Stalker.init(); });
