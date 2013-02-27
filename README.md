@@ -30,5 +30,9 @@ Meant to provide flexibility for non-UI events and ease of integration with lega
       if (!mixpanel) return;
       mixpanel.register({ 'Page Title': document.title });
 
-      data.type !== 'time' && mixpanel.track(data.type, data);
+      if (data.type !== 'time') mixpanel.track(data.type, data);
     });
+
+## Initialization
+
+$(function () { Stalker.init(); });
