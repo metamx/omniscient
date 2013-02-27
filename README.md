@@ -26,14 +26,20 @@ Meant to provide flexibility for non-UI events and ease of integration with lega
 
 ### Defining Server Communication Strategies
 
-    Stalker.server.addStrategy(function (data) {
+    Stalker.server.addStrategy(function (data, ele) {
       if (!mixpanel) return;
       mixpanel.register({ 'Page Title': document.title });
 
       if (data.type !== 'time') mixpanel.track(data.type, data);
     });
 
+In the parameters, data is the parsed JSON from data-behavior, and ele is the firing element.
+
 Stalker neither cares nor wants to know what vendor you are using and how to initialize that vendor's library. So you are free to initialize vendor libraries and such whenever and wherever.
+
+### Complex Events
+
+For complex events that also send state data from other elements. Use custom event tracking.
 
 ## Initialization
 
