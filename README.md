@@ -1,41 +1,82 @@
 # Stalker.js
 
-Stalker.js is a generic and unobtrusive web interaction tracking library.
+Stalker.js is an event management library that: 
 
-It stays back-end vendor agnostic by allowing developers configure their own vendor strategies.
+1. translates UI interactions into chronological events that make sence to humans, based on semantic markup.
 
-And it stays unobtrusive by examining UI element behaviors to figure out what to track, rather than requiring UI elements to sign up for tracking, which breaks encapsulation and introduces coupling. Custom non-UI events are also supported.
+2. and then executes user configured event handlers.
+
+For instance, it can be used to track events and send them to analytic vendors.
+
+When it catches an event on body, in the capuring phase, Stalker examines the target element, walks up until finding a parent with the "event-context", then puts together the event-context with semnatic markup information to record the event. Custom non-UI events are also supported.
+
+## Getting Started
+
+The library is in build/stalker.js
+
+To edit source, run
+
+    grunt
+
+then edit the source files in src directory.
+
+Install grunt via
+
+    sudo npm install -g grunt-cli
 
 ## API
 
-The API has two parts, defining events and defining server communication strategies.
+The API has two parts, defining events and defining event handlers.
 
 ### Defining Events: UI Elements' Behaviors
 
-    <a data-behavior='{ "type": "users table", "action": "new user button" }'>New User</a>
+Example markup:
 
-Stalker finds all UI elements with the data-behavior attribute, listens for click events, and submits events based on the JSON value. Currently only the click event is supported.
+    <div class="user-management" data-context="user management panel">
+      <p>Manage Users Here</p>
+      <button>Add</button>
+      <button data-behavior="nothing happened here!">Delete All</button>
+    </div>
+
+Clicking the first button will result in Stalker generate the event:
+
+    {
+      "context": "user management panel",
+      "action": "Add"
+    }
+
+Clicking the second button will result in Stalker generate the event:
+
+    {
+      "context": "user management panel",
+      "action": "nothing happened here!"
+    }
+
+Context is taken closest parent to the firing element. If none is found, context is set to "".
+
+Action is in the innerText of the firing element. Setting data-behavior on the firing element overrides element inner text.
 
 ### Defining Events: Custom
 
-This is a simple
+Example:
 
     Stalker.submit({ ... });
 
-Meant to provide flexibility for non-UI events and ease of integration with legacy systems, as well as to provide shim for features Stalker does not support.
+Simply pass in the event data.
 
-### Defining Server Communication Strategies
+This is meant to provide flexibility for non-UI events and ease of integration with legacy systems, as well as to provide shim for features Stalker does not support.
 
-    Stalker.server.addStrategy(function (data, ele) {
+### Defining Event Handlers
+
+    Stalker.addHandler(function (data, ev) {
+      // "this" is bound to the firing event
       if (!mixpanel) return;
       mixpanel.register({ 'Page Title': document.title });
 
-      if (data.type !== 'time') mixpanel.track(data.type, data);
+      if (data.type !== 'time') mixpanel.track(data.context, data.action);
     });
 
-In the parameters, data is the parsed JSON from data-behavior, and ele is the firing element.
-
-Stalker neither cares nor wants to know what vendor you are using and how to initialize that vendor's library. So you are free to initialize vendor libraries and such whenever and wherever.
+In the parameters, data is the event data, and "this" is bound to the firing element.
 
 ### Complex Events
 
@@ -43,4 +84,10 @@ For complex events that also send state data from other elements. Use custom eve
 
 ## Initialization
 
-$(function () { Stalker.init(); });
+    Stalker.init({
+      tags: ['a', 'button', ... ]
+    });
+
+This can be done whenever after the Stalker library has been loaded. Since Stalker listens to event capturing on body, the init function does not have to be reinvoked everytime new UI elements are added.
+
+Tags default to link and button.
