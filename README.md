@@ -52,7 +52,7 @@ Clicking the second button will result in Stalker generate the event:
       "action": "nothing happened here!"
     }
 
-Context is taken closest parent to the firing element. If none is found, context is set to "".
+Context is taken closest parent to the firing element. If none is found, context is set to "global".
 
 Action is in the innerText of the firing element. Setting data-behavior on the firing element overrides element inner text.
 
@@ -68,8 +68,18 @@ This is meant to provide flexibility for non-UI events and ease of integration w
 
 ### Defining Event Handlers
 
+Dummy example:
+
     Stalker.addHandler(function (data, ev) {
-      // "this" is bound to the firing event
+      console.log(JSON.stringify(data));
+      console.log(ev);
+      console.log(this + '\n');
+    });
+
+Example with mixpanel:
+
+    Stalker.addHandler(function (data, ev) {
+      // "this" is bound to the firing element
       if (!mixpanel) return;
       mixpanel.register({ 'Page Title': document.title });
 

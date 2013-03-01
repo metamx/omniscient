@@ -11,15 +11,16 @@ Stalker._uiHandler = (ev) ->
   target = ev.target
 
   data = {
-    action: target.getAttribute('data-behavior') || target.innerText
+    action: target.getAttribute('data-behavior') or target.innerText
   }
 
   seekNode = target
-  while (!(data.context = seekNode.getAttribute('data-context')) && seekNode.tagName != 'BODY')
+  while (!(data.context = seekNode.getAttribute('data-context')) and seekNode.tagName != 'BODY')
     seekNode = seekNode.parentNode
-  data.context ||= ''
+  data.context or= 'global'
 
   handler.call(target, data, ev) for handler in Stalker._handlers
+  return
 
 ###
 invoke all handlers based on custom data
@@ -29,6 +30,7 @@ invoke all handlers based on custom data
 
 Stalker._customHandler = (data) ->
   handler(data, null) for handler in Stalker._handlers
+  return
 
 ###
 manually submit a custom event
@@ -38,3 +40,4 @@ manually submit a custom event
 
 Stalker.submit = (data) ->
   Stalker._customHandler(data)
+  return

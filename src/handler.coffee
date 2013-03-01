@@ -10,3 +10,4 @@ add event handler
 
 Stalker.addHandler = (handler) ->
   Stalker._handlers.push(handler)
+  return

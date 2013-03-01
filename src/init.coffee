@@ -1,6 +1,6 @@
 
 # Stalker global singleton
-window.Stalker = {}
+window.Stalker = Stalker = {}
 
 # list of handlers added
 Stalker._handlers = []
@@ -14,8 +14,9 @@ clear and re-track all elements with a data-behavior attribute
 @param evType {Array} event types to track, defaults to ['click']
 ###
 
-Stalker.init = (options) ->
-  Stalker._tags = options && options.tags || ['a', 'button']
+Stalker.init = ({ tags } = {}) ->
+  Stalker._tags = tags?.toLowerCase() or ['a', 'button'] # lowercase the tags
 
   body = document.getElementsByTagName('body')[0]
   body.addEventListener('click', Stalker._uiHandler, true)
+  return
