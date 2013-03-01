@@ -95,9 +95,12 @@ For complex events that also send state data from other elements. Use custom eve
 ## Initialization
 
     Stalker.init({
-      tags: ['a', 'button', ... ]
+      tags: ['a', 'button', ... ],
+      global: true|false
     });
 
 This can be done whenever after the Stalker library has been loaded. Since Stalker listens to event capturing on body, the init function does not have to be reinvoked everytime new UI elements are added.
 
 Tags default to link and button.
+
+Global defaults to false.

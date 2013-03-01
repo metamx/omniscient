@@ -19,23 +19,13 @@
   <button data-behavior="nothing happened here!">Delete All</button>
 </div>
 
-<p id='special' style='border:1px solid;'>Special Clickable Paragraph Here</p>
-
 <script type='text/javascript' src='./../build/stalker.js'></script>
 <script type='text/javascript'>
-  Stalker.init({ global: true });
-  Stalker.addHandler(function (data, ev) {
-    console.log('handler executed!');
-  });
+  Stalker.init();
   Stalker.addHandler(function (data, ev) {
     console.log(JSON.stringify(data));
     console.log(ev);
     console.log(this + '\n');
-  });
-  document.getElementById('special').addEventListener('click', function () {
-    Stalker.submit({
-      weirdData: "um"
-    });
   });
 </script>
 

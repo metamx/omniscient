@@ -17,7 +17,11 @@ Stalker._uiHandler = (ev) ->
   seekNode = target
   while (!(data.context = seekNode.getAttribute('data-context')) and seekNode.tagName != 'BODY')
     seekNode = seekNode.parentNode
-  data.context or= 'global'
+  if not data.context?
+    if Stalker._config.global
+      data.context = 'global'
+    else
+      return
 
   handler.call(target, data, ev) for handler in Stalker._handlers
   return
