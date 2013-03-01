@@ -1,9 +1,11 @@
 module.exports = (grunt) ->
   grunt.initConfig {
+    pkg: grunt.file.readJSON('package.json')
+
     coffee: {
       compile: {
         files: {
-          'build/stalker.js': [
+          'build/stalker-<%= pkg.version %>.js': [
             'src/init.coffee',
             'src/events.coffee',
             'src/handler.coffee'
