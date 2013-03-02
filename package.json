@@ -5,7 +5,8 @@
   "dependencies": {
     "grunt": "~0.4.0",
     "grunt-contrib-watch": "*",
-    "grunt-contrib-coffee": "*"
+    "grunt-contrib-coffee": "*",
+    "grunt-contrib-uglify": "*"
   },
   "devDependencies": {}
 }

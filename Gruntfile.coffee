@@ -14,15 +14,25 @@ module.exports = (grunt) ->
       }
     },
 
+    uglify: {
+      target: {
+        files: {
+          'build/stalker-<%= pkg.version %>.min.js': ['build/stalker-<%= pkg.version %>.js']
+        }
+      }
+    }
+
     watch: {
       scripts: {
         files: 'src/*.coffee',
-        tasks: ['coffee']
+        tasks: ['coffee', 'uglify']
       }
     }
   }
 
   grunt.loadNpmTasks('grunt-contrib-watch')
   grunt.loadNpmTasks('grunt-contrib-coffee')
+  grunt.loadNpmTasks('grunt-contrib-uglify')
 
-  grunt.registerTask('default', ['coffee', 'watch'])
+  grunt.registerTask('default', ['coffee', 'uglify', 'watch'])
+  return
