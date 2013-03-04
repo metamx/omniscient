@@ -2,7 +2,7 @@
 
 Stalker.js is an event management library that: 
 
-1. translates UI interactions into chronological events that make sence to humans, based on semantic markup.
+1. translates UI interactions into chronological events that make sence to humans, based on semantic markup and meaningful context labeling.
 
 2. and then executes user configured event handlers.
 
@@ -41,18 +41,18 @@ Example markup:
 Clicking the first button will result in Stalker generate the event:
 
     {
-      "context": "user management panel",
+      "context": ["user management panel"],
       "action": "Add"
     }
 
 Clicking the second button will result in Stalker generate the event:
 
     {
-      "context": "user management panel",
+      "context": ["user management panel"],
       "action": "nothing happened here!"
     }
 
-Context is taken closest parent to the firing element. If none is found, context is set to "global".
+Context is an array of data-context attributes taking from parent elements of the firing element, in the order of higher up to lower down. If none is found, context is set to "global". By default, events with "global" context do not trigger handlers, but the user can manually override that with Stalker.init.
 
 Action is in the innerText of the firing element. Setting data-behavior on the firing element overrides element inner text.
 

@@ -11,17 +11,18 @@ Stalker._uiHandler = (ev) ->
   target = ev.target
 
   data = {
+    context: [],
     action: target.getAttribute('data-behavior') or target.innerText
   }
 
   seekNode = target
-  while (!(data.context = seekNode.getAttribute('data-context')) and seekNode.tagName != 'BODY')
+  while seekNode.tagName.toLowerCase() isnt 'body'
+    context = seekNode.getAttribute('data-context')
+    data.context.unshift(context) if context?
     seekNode = seekNode.parentNode
-  if not data.context?
-    if Stalker._config.global
-      data.context = 'global'
-    else
-      return
+  if not data.context.length > 0
+    return if not Stalker._config.global
+    data.context = ['global']
 
   handler.call(target, data, ev) for handler in Stalker._handlers
   return
