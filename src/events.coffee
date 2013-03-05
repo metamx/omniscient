@@ -22,7 +22,10 @@ Stalker._uiHandler = (ev) ->
     context = seekNode.getAttribute('data-context')
     data.context.unshift(context) if context?
     seekNode = seekNode.parentNode
-  if not data.context.length > 0
+  context = seekNode.getAttribute('data-context')
+  data.context.unshift(context) if context?
+
+  if not data.context.length > 0 and not context?
     return if not Stalker._config.global
     data.context = ['global']
 
