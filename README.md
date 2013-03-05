@@ -92,6 +92,14 @@ In the parameters, data is the event data, and "this" is bound to the firing ele
 
 For complex events that also send state data from other elements. Use custom event tracking.
 
+### Misc
+
+While tag names of firing elements are used in the spirit of semantic markup, Stalker.js also provides a hack in the form of
+
+    <div data-semantic-tag="button">Click for bad html</div>
+
+where Stalker will treat this div as if it were a button.
+
 ## Initialization
 
     Stalker.init({

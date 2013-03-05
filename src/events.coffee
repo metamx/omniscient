@@ -6,7 +6,9 @@ retrieve relevant data then invoke all user-added handlers
 ###
 
 Stalker._uiHandler = (ev) ->
-  return if ev.target.tagName.toLowerCase() not in Stalker._tags
+  untrackedTag = ev.target.tagName.toLowerCase() not in Stalker._tags
+  untrackedDataTag = ev.target.getAttribute('data-semantic-tag').toLowerCase() not in Stalker._tags
+  return if untrackedTag and untrackedDataTag
 
   target = ev.target
 
