@@ -30,7 +30,7 @@ The API has two parts, defining events and defining event handlers.
 
 ### Defining Events: UI Elements' Behaviors
 
-Example markup:
+Simple example:
 
     <div class="user-management" data-context="user management panel">
       <p>Manage Users Here</p>
@@ -55,6 +55,40 @@ Clicking the second button will result in Stalker generate the event:
 Context is an array of data-context attributes taking from parent elements of the firing element, in the order of higher up to lower down. If none is found, context is set to "global". By default, events with "global" context do not trigger handlers, but the user can manually override that with Stalker.init.
 
 Action is in the innerText of the firing element. Setting data-behavior on the firing element overrides element inner text.
+
+Example of walking up:
+
+    <div class="user-management" data-context="user management panel">
+      <p>Manage Users Here</p>
+      <a><span>Add</span></a>
+      <button data-behavior="nothing happened here!">Delete All</button>
+    </div>
+
+Here, clicking on the Add span does not trigger a Stalker event by default, but Stalker is smart enough to walk up the DOM tree and find that the span is nested under a anchor element. So it will behave as if the anchor triggered the event, but use the span's text node as action.
+
+Example of tag masking:
+
+    <div class="user-management" data-context="user management panel">
+      <p>Manage Users Here</p>
+      <span data-semantic-tag="button">Add</span>
+      <button data-behavior="nothing happened here!">Delete All</button>
+    </div>
+
+Similarly, clicking on the span will cause Stalker to treat it as a button.
+
+Example of walking down:
+
+    <div class="user-management" data-context="user management panel">
+      <p>Manage Users Here</p>
+      <a>
+        <span class="cal-bears">
+          <span>Add</span>
+        <span>
+      </a>
+      <button data-behavior="nothing happened here!">Delete All</button>
+    </div>
+
+Here, if the span.cal-bears element gets clicked, Stalker will first walk up to find the anchor, then decide to walk down to the span with text Add. to figure out the action. If the anchor has a data-behavior, it overrides the text to become the action.
 
 ### Defining Events: Custom
 
@@ -92,14 +126,6 @@ In the parameters, data is the event data, and "this" is bound to the firing ele
 
 For complex events that also send state data from other elements. Use custom event tracking.
 
-### Misc
-
-While tag names of firing elements are used in the spirit of semantic markup, Stalker.js also provides a hack in the form of
-
-    <div data-semantic-tag="button">Click for bad html</div>
-
-where Stalker will treat this div as if it were a button.
-
 ## Initialization
 
     Stalker.init({
@@ -109,6 +135,6 @@ where Stalker will treat this div as if it were a button.
 
 This can be done whenever after the Stalker library has been loaded. Since Stalker listens to event capturing on body, the init function does not have to be reinvoked everytime new UI elements are added.
 
-Tags default to link and button.
+Tags default to anchor and button.
 
 Global defaults to false.

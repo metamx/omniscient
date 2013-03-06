@@ -6,31 +6,73 @@ retrieve relevant data then invoke all user-added handlers
 ###
 
 Stalker._uiHandler = (ev) ->
-  untrackedTag = ev.target.tagName.toLowerCase() not in Stalker._tags
-  untrackedDataTag = ev.target.getAttribute('data-semantic-tag')?.toLowerCase() not in Stalker._tags
-  return if untrackedTag and untrackedDataTag
-
-  target = ev.target
+  el = Stalker._findFiringElement(ev.target)
+  return if not el
 
   data = {
-    context: [],
-    action: target.getAttribute('data-behavior') or target.innerText
+    context: Stalker._getContext(el)
+    action: Stalker._findAction(el)
   }
 
-  seekNode = target
-  while seekNode.tagName.toLowerCase() isnt 'body'
-    context = seekNode.getAttribute('data-context')
-    data.context.unshift(context) if context?
-    seekNode = seekNode.parentNode
-  context = seekNode.getAttribute('data-context')
-  data.context.unshift(context) if context?
-
-  if not data.context.length > 0 and not context?
-    return if not Stalker._config.global
-    data.context = ['global']
-
-  handler.call(target, data, ev) for handler in Stalker._handlers
+  handler.call(el, data, ev) for handler in Stalker._handlers
   return
+
+###
+find the firing element based on the target
+
+@param el {DOM Element} the target element of the event
+@return {DOM Element} the determined firing element
+@return false if not approperiate firing element available
+###
+
+Stalker._findFiringElement = (el) ->
+  while el.parentNode
+    return el if Stalker._validFiringElement(el)
+    el = el.parentNode
+  return false
+
+###
+whether the element is appropriate to be a firing element
+
+@param el {DOM Element} the element in question
+@return {Boolean} whether the element is a valid firing element
+###
+
+Stalker._validFiringElement = (el) ->
+  validTag = el.tagName.toLowerCase() in Stalker._tags
+  validDataTag = el.getAttribute('data-semantic-tag')?.toLowerCase() in Stalker._tags
+  return validTag or validDataTag
+
+###
+find the action based on the target
+
+@param el {DOM Element} the target element of the event
+@return {String} the found action
+###
+
+Stalker._findAction = (el) ->
+  return el.getAttribute('data-behavior') or el.innerText
+
+###
+determine the context of the event
+
+@param el {DOM Element} the firing element
+@return {Array} the determined context
+@return false if the context is invalid
+###
+
+Stalker._getContext = (el) ->
+  context = []
+  while el.parentNode
+    nodeContext = el.getAttribute('data-context')
+    context.unshift(nodeContext) if nodeContext?
+    el = el.parentNode
+  if context.length is 0
+    if Stalker._config.global
+      context.unshift('global')
+    else
+      return false
+  return context
 
 ###
 invoke all handlers based on custom data

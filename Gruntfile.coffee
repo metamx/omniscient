@@ -9,6 +9,11 @@ module.exports = (grunt) ->
             'src/init.coffee',
             'src/events.coffee',
             'src/handler.coffee'
+          ],
+          'examples/lib/stalker.js': [
+            'src/init.coffee',
+            'src/events.coffee',
+            'src/handler.coffee'
           ]
         }
       }
@@ -17,7 +22,7 @@ module.exports = (grunt) ->
     uglify: {
       target: {
         files: {
-          'build/stalker-<%= pkg.version %>.min.js': ['build/stalker-<%= pkg.version %>.js']
+          'build/stalker-<%= pkg.version %>.min.js': ['build/stalker-<%= pkg.version %>.js'],
         }
       }
     }

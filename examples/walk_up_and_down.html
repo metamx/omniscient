@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Basic</title>
+  <title>Basic</title>
 </head>
 <body>
 
@@ -9,14 +9,8 @@
 
 <div class="user-management" data-context="user management panel">
   <p>Manage Users Here</p>
-  <button>Add</button>
-  <button data-behavior="nothing happened here!">Delete All</button>
-</div>
-
-<div class="user-management">
-  <p>Manage Users Without Context Here</p>
-  <button>Add</button>
-  <button data-behavior="nothing happened here!">Delete All</button>
+  <div data-semantic-tag="button" style="width:50px;height:30px;background-color:#add8e6;"><span>Add</span></div>
+  <a data-semantic-tag="button" data-behavior="nothing happened!"><span>Delete All</span></a>
 </div>
 
 <script type='text/javascript' src='lib/stalker.js'></script>
