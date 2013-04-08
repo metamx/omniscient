@@ -19,10 +19,10 @@
   <button data-behavior="nothing happened here!">Delete All</button>
 </div>
 
-<script type='text/javascript' src='lib/stalker.js'></script>
+<script type='text/javascript' src='lib/omniscient.js'></script>
 <script type='text/javascript'>
-  Stalker.init();
-  Stalker.addHandler(function (data, ev) {
+  Omniscient.init();
+  Omniscient.addHandler(function (data, ev) {
     console.log(JSON.stringify(data));
     console.log(ev);
     console.log(this.tagName + '\n');

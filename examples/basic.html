@@ -21,19 +21,19 @@
 
 <p id='special' style='border:1px solid;'>Special Clickable Paragraph Here</p>
 
-<script type='text/javascript' src='lib/stalker.js'></script>
+<script type='text/javascript' src='lib/omniscient.js'></script>
 <script type='text/javascript'>
-  Stalker.init({ global: true });
-  Stalker.addHandler(function (data, ev) {
+  Omniscient.init({ global: true });
+  Omniscient.addHandler(function (data, ev) {
     console.log('handler executed!');
   });
-  Stalker.addHandler(function (data, ev) {
+  Omniscient.addHandler(function (data, ev) {
     console.log(JSON.stringify(data));
     console.log(ev);
     console.log(this.tagName + '\n');
   });
   document.getElementById('special').addEventListener('click', function () {
-    Stalker.submit({
+    Omniscient.submit({
       weirdData: "um"
     });
   });

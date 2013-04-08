@@ -8,6 +8,6 @@ add event handler
   @this {Object} the firing element
 ###
 
-Stalker.addHandler = (handler) ->
-  Stalker._handlers.push(handler)
+Omniscient.addHandler = (handler) ->
+  Omniscient._handlers.push(handler)
   return

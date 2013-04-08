@@ -1,6 +1,6 @@
 {
-  "name": "stalker",
-  "version": "0.2.0",
+  "name": "omniscient",
+  "version": "0.2.1",
   "description": "A generic and unobtrusive web interaction tracking library.",
   "dependencies": {
     "grunt": "~0.4.0",
