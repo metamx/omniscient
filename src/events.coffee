@@ -9,9 +9,13 @@ Omniscient._uiHandler = (ev) ->
   el = Omniscient._findFiringElement(ev.target)
   return if not el
 
+  context = Omniscient._getContext(el)
+  return unless context
+  action = Omniscient._findAction(el)
+
   data = {
-    context: Omniscient._getContext(el)
-    action: Omniscient._findAction(el)
+    context
+    action
   }
 
   handler.call(el, data, ev) for handler in Omniscient._handlers

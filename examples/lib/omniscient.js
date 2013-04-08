@@ -39,14 +39,19 @@ retrieve relevant data then invoke all user-added handlers
   var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Omniscient._uiHandler = function(ev) {
-    var data, el, handler, _i, _len, _ref;
+    var action, context, data, el, handler, _i, _len, _ref;
     el = Omniscient._findFiringElement(ev.target);
     if (!el) {
       return;
     }
+    context = Omniscient._getContext(el);
+    if (!context) {
+      return;
+    }
+    action = Omniscient._findAction(el);
     data = {
-      context: Omniscient._getContext(el),
-      action: Omniscient._findAction(el)
+      context: context,
+      action: action
     };
     _ref = Omniscient._handlers;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
