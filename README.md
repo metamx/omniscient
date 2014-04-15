@@ -1,14 +1,14 @@
 # Omniscient.js
 
-Omniscient.js is an event management library that: 
+Omniscient.js is an event management library that:
 
-1. translates UI interactions into chronological events that make sence to humans, based on semantic markup and meaningful context labeling.
+1. translates UI interactions into chronological events that make sense to humans, based on semantic markup and meaningful context labeling.
 
 2. and then executes user configured event handlers.
 
-For instance, it can be used to track events and send them to analytic vendors.
+For instance, it can be used to track user interaction DOM events and send them to analytic vendors.
 
-When it catches an event on body, in the capuring phase, Omniscient examines the target element, walks up until finding a parent with the "event-context", then puts together the event-context with semnatic markup information to record the event. Custom non-UI events are also supported.
+When it catches an event on DOM body, in the capuring phase, Omniscient examines the "target" element, walks up until finding a parent with attribute "event-context", then puts together the event-context with semnatic markup information to record the event. Custom non-UI events are also supported.
 
 ## Getting Started
 
